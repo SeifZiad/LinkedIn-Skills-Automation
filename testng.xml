@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="LinkedIn Skills Suite" verbose="1">
+    <test name="Add Skills Test">
+        <classes>
+            <class name="AddSkillsTest"/>
+        </classes>
+    </test>
+</suite>

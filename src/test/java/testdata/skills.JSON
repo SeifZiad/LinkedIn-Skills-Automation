@@ -1,0 +1,132 @@
+{
+  "skills": [
+    {
+      "name": "Software Testing",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "Test Automation",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "Manual Testing",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "Selenium WebDriver",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Java",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "TestNG",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "API Testing",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Postman",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "REST Assured",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "SQL",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Jira",
+      "sources": ["diploma","meti"]
+    },
+    {
+      "name": "Zephyr Scale",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Agile Testing",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "ISTQB Certified Tester Foundation Level",
+      "sources": ["istqb"]
+    },
+    {
+      "name": "Functional Testing",
+      "sources": ["diploma", "istqb"]
+    },
+    {
+      "name": "Regression Testing",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "Page Object Model (POM)",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Object-Oriented Programming (OOP)",
+      "sources": ["diploma","meti"]
+    },
+    {
+      "name": "End-to-End Testing",
+      "sources": ["diploma","meti"]
+    },
+    {
+      "name": "Test Case Design",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "Test Case Management",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "Defect Tracking",
+      "sources": ["diploma", "istqb","meti"]
+    },
+    {
+      "name": "GitHub",
+      "sources": ["diploma","meti"]
+    },
+    {
+      "name": "CI/CD",
+      "sources": ["diploma", "istqb"]
+    },
+    {
+      "name": "Performance Testing",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "JMeter",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Mobile Testing",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Appium",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Allure Report",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "Pairwise Testing",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "MC/DC Testing",
+      "sources": ["diploma"]
+    },
+    {
+      "name": "JSON",
+      "sources": ["diploma","meti"]
+    }
+  ]
+}

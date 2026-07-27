@@ -1,0 +1,10 @@
+{
+  "name": "skillforge-runner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local runner that writes skills.JSON and streams mvn test output to the SkillForge UI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

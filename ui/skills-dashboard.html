@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkillForge — LinkedIn Skills Runner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg0: #0e1412;
+      --bg1: #15201c;
+      --line: rgba(180, 220, 190, 0.14);
+      --text: #e8f2ec;
+      --muted: #8aa396;
+      --accent: #3dffa8;
+      --warn: #ffb454;
+      --fail: #ff6b6b;
+      --ok: #3dffa8;
+      --radius: 14px;
+      --font-ui: "DM Sans", system-ui, sans-serif;
+      --font-display: "Syne", sans-serif;
+      --font-mono: "IBM Plex Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-ui);
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% -10%, rgba(61, 255, 168, 0.12), transparent 55%),
+        radial-gradient(700px 400px at 100% 0%, rgba(255, 180, 84, 0.08), transparent 50%),
+        linear-gradient(165deg, var(--bg0), #101816 45%, #0c1210);
+    }
+
+    .wrap {
+      width: min(1100px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      animation: rise 0.6s ease both;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .subtitle {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: stretch; }
+    }
+
+    section.panel {
+      background: linear-gradient(180deg, rgba(28, 42, 36, 0.9), rgba(18, 28, 24, 0.95));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem 1.2rem;
+      backdrop-filter: blur(8px);
+      animation: rise 0.7s ease both;
+    }
+
+    section.panel:nth-child(2) { animation-delay: 0.08s; }
+    .terminal-wrap { margin-top: 1rem; animation: rise 0.8s ease both; animation-delay: 0.14s; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-label h2 {
+      margin: 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      border: 1px solid rgba(61, 255, 168, 0.35);
+      padding: 0.2rem 0.45rem;
+      border-radius: 999px;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.55rem;
+      margin-bottom: 0.85rem;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--bg0);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.72rem 0.8rem;
+      font: 500 0.95rem var(--font-ui);
+      outline: none;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: rgba(61, 255, 168, 0.55);
+      box-shadow: 0 0 0 3px rgba(61, 255, 168, 0.12);
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 0.72rem 0.95rem;
+      font: 700 0.9rem var(--font-ui);
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease, opacity 0.2s;
+    }
+
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #22c97d);
+      color: #062016;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-run {
+      background: linear-gradient(135deg, #ffb454, #ff8a3d);
+      color: #231406;
+      min-width: 160px;
+    }
+
+    .skills {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-height: 280px;
+      overflow: auto;
+      padding-right: 0.2rem;
+    }
+
+    .skill-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.35rem 0.75rem;
+      padding: 0.75rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(8, 14, 12, 0.55);
+    }
+
+    .skill-item strong { font-size: 0.98rem; }
+    .skill-item small {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .skill-item button {
+      align-self: center;
+      padding: 0.4rem 0.65rem;
+      background: rgba(255, 107, 107, 0.12);
+      color: #ff9b9b;
+      border: 1px solid rgba(255, 107, 107, 0.25);
+    }
+
+    .sources-box { display: grid; gap: 0.55rem; }
+
+    .source-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      min-height: 2.2rem;
+    }
+
+    .chip {
+      font-size: 0.78rem;
+      padding: 0.35rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(61, 255, 168, 0.28);
+      background: rgba(61, 255, 168, 0.08);
+      color: #b9ffe0;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.35rem;
+    }
+
+    .terminal {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #070b09;
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      background: #101814;
+    }
+
+    .dots { display: flex; gap: 0.35rem; }
+    .dots i {
+      width: 9px; height: 9px; border-radius: 50%; display: block;
+      background: #3a4a42;
+    }
+    .dots i:nth-child(1) { background: #ff6b6b; }
+    .dots i:nth-child(2) { background: #ffb454; }
+    .dots i:nth-child(3) { background: #3dffa8; }
+
+    .term-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    #terminalOut {
+      margin: 0;
+      min-height: 280px;
+      max-height: 420px;
+      overflow: auto;
+      padding: 1rem;
+      font: 500 0.82rem/1.55 var(--font-mono);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-info { color: #9db7aa; }
+    .log-ok { color: var(--ok); }
+    .log-warn { color: var(--warn); }
+    .log-fail { color: var(--fail); }
+
+    .cursor {
+      display: inline-block;
+      width: 0.55ch;
+      background: var(--accent);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+      height: 1em;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.4rem;
+      background: var(--warn);
+    }
+    .status-dot.ok { background: var(--ok); }
+    .status-dot.bad { background: var(--fail); }
+
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 class="brand">Skill<span>Forge</span></h1>
+        <p class="subtitle">
+          <span class="status-dot" id="runnerDot"></span>
+          <span id="runnerStatus">Checking local runner…</span>
+        </p>
+      </div>
+      <button class="btn-run" id="runBtn" type="button">Run automation</button>
+    </header>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="section-label">
+          <h2>1 · Skills to add</h2>
+          <span class="badge" id="skillCount">0</span>
+        </div>
+        <div class="row">
+          <input id="skillInput" type="text" placeholder="e.g. Software Testing" />
+          <button class="btn-primary" id="addSkillBtn" type="button">Add</button>
+        </div>
+        <div class="skills" id="skillsList"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-label">
+          <h2>2 · Sources</h2>
+          <span class="badge">optional</span>
+        </div>
+        <div class="sources-box">
+          <select id="sourceSelect">
+            <option value="">Select a source to attach…</option>
+            <option value="diploma">Software Testing Diploma</option>
+            <option value="istqb">ISTQB — Certified Tester Foundation Level</option>
+            <option value="meti">METI — Simulation Testing Engineer</option>
+            <option value="ainshams">Ain Shams</option>
+            <option value="lowvoltage">Low Voltage</option>
+            <option value="designleader">Design Team Leader</option>
+            <option value="vicecaptain">Vice Team Captain</option>
+            <option value="aerodyanmics">Aerodynamics</option>
+            <option value="embeddedsystems">Embedded Systems</option>
+          </select>
+          <div class="source-chips" id="selectedSources"></div>
+          <p class="subtitle" style="margin:0">
+            Sources are optional. They attach to the next skill you Add, then clear automatically.
+          </p>
+          <div class="actions">
+            <button class="btn-ghost" id="clearSourcesBtn" type="button">Clear sources</button>
+            <button class="btn-ghost" id="exportBtn" type="button">Download skills.JSON</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="terminal-wrap">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="term-title">live process · mvn test</div>
+          <button class="btn-ghost" id="clearTermBtn" type="button" style="padding:0.35rem 0.6rem;font-size:0.78rem">Clear</button>
+        </div>
+        <pre id="terminalOut"><span class="log-info">Ready. Add skills, choose sources (optional), then press Run automation.</span><span class="cursor"></span></pre>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const API_BASE = window.location.origin.includes("5050")
+      ? window.location.origin
+      : "http://localhost:5050";
+
+    const SOURCE_LABELS = {
+      diploma: "Software Testing Diploma",
+      istqb: "ISTQB",
+      meti: "METI",
+      ainshams: "Ain Shams",
+      lowvoltage: "Low Voltage",
+      designleader: "Design Team Leader",
+      vicecaptain: "Vice Team Captain",
+      aerodyanmics: "Aerodynamics",
+      embeddedsystems: "Embedded Systems"
+    };
+
+    let pendingSources = [];
+    let skills = [];
+
+    const skillsList = document.getElementById("skillsList");
+    const skillCount = document.getElementById("skillCount");
+    const selectedSources = document.getElementById("selectedSources");
+    const terminalOut = document.getElementById("terminalOut");
+    const runBtn = document.getElementById("runBtn");
+    const runnerDot = document.getElementById("runnerDot");
+    const runnerStatus = document.getElementById("runnerStatus");
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[m]);
+    }
+
+    function renderSources() {
+      if (!pendingSources.length) {
+        selectedSources.innerHTML = `<span class="subtitle">No sources selected for the next skill.</span>`;
+        return;
+      }
+      selectedSources.innerHTML = pendingSources.map((s) =>
+        `<button class="chip" type="button" data-source="${s}">${SOURCE_LABELS[s] || s} ×</button>`
+      ).join("");
+    }
+
+    function renderSkills() {
+      skillCount.textContent = String(skills.length);
+      if (!skills.length) {
+        skillsList.innerHTML = `<p class="subtitle" style="margin:0">No skills queued yet.</p>`;
+        return;
+      }
+      skillsList.innerHTML = skills.map((sk, i) => `
+        <div class="skill-item">
+          <div>
+            <strong>${escapeHtml(sk.name)}</strong>
+            <small>${sk.sources.length
+              ? sk.sources.map((s) => SOURCE_LABELS[s] || s).join(" · ")
+              : "No sources"}</small>
+          </div>
+          <button type="button" data-index="${i}">Remove</button>
+        </div>
+      `).join("");
+    }
+
+    function writeln(text, cls = "log-info") {
+      const cursor = terminalOut.querySelector(".cursor");
+      if (cursor) cursor.remove();
+      const lines = String(text).split(/\r?\n/);
+      for (const line of lines) {
+        if (line === "") {
+          terminalOut.innerHTML += `\n`;
+          continue;
+        }
+        let lineCls = cls;
+        if (/BUILD SUCCESS|✅|Tests run:.*Failures: 0/i.test(line)) lineCls = "log-ok";
+        else if (/BUILD FAILURE|ERROR|FAILURE|TimeoutException|Unknown source/i.test(line)) lineCls = "log-fail";
+        else if (/WARNING|WARN/i.test(line)) lineCls = "log-warn";
+        terminalOut.innerHTML += `\n<span class="${lineCls}">${escapeHtml(line)}</span>`;
+      }
+      terminalOut.innerHTML += `<span class="cursor"></span>`;
+      terminalOut.scrollTop = terminalOut.scrollHeight;
+    }
+
+    document.getElementById("sourceSelect").addEventListener("change", (e) => {
+      const value = e.target.value;
+      if (!value) return;
+      if (!pendingSources.includes(value)) pendingSources.push(value);
+      e.target.value = "";
+      renderSources();
+    });
+
+    selectedSources.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-source]");
+      if (!btn) return;
+      pendingSources = pendingSources.filter((s) => s !== btn.dataset.source);
+      renderSources();
+    });
+
+    document.getElementById("clearSourcesBtn").addEventListener("click", () => {
+      pendingSources = [];
+      renderSources();
+    });
+
+    document.getElementById("addSkillBtn").addEventListener("click", () => {
+      const name = document.getElementById("skillInput").value.trim();
+      if (!name) {
+        writeln("Enter a skill name before adding.", "log-warn");
+        return;
+      }
+
+      skills.push({ name, sources: [...pendingSources] });
+      document.getElementById("skillInput").value = "";
+
+      // Clear sources after each Add so the next skill can use a fresh set
+      pendingSources = [];
+      renderSources();
+      renderSkills();
+
+      writeln(`Queued skill "${name}"`, "log-ok");
+    });
+
+    document.getElementById("skillInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("addSkillBtn").click();
+      }
+    });
+
+    skillsList.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-index]");
+      if (!btn) return;
+      const removed = skills.splice(Number(btn.dataset.index), 1)[0];
+      renderSkills();
+      writeln(`Removed skill "${removed.name}"`, "log-warn");
+    });
+
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const payload = { skills };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "skills.JSON";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      writeln("Downloaded skills.JSON", "log-ok");
+    });
+
+    document.getElementById("clearTermBtn").addEventListener("click", () => {
+      terminalOut.innerHTML = `<span class="log-info">Terminal cleared.</span><span class="cursor"></span>`;
+    });
+
+    async function checkRunner() {
+      try {
+        const res = await fetch(`${API_BASE}/health`);
+        if (!res.ok) throw new Error("bad status");
+        const data = await res.json();
+        runnerDot.className = "status-dot ok";
+        runnerStatus.textContent = data.running
+          ? "Runner connected · job in progress"
+          : "Runner connected · ready";
+        return true;
+      } catch {
+        runnerDot.className = "status-dot bad";
+        runnerStatus.textContent = "Runner offline — start with: cd ui && npm start";
+        return false;
+      }
+    }
+
+    async function runReal() {
+      if (!skills.length) {
+        writeln("No skills queued. Add at least one skill first.", "log-fail");
+        return;
+      }
+
+      const online = await checkRunner();
+      if (!online) {
+        writeln("Local runner is offline. Run: cd ui && npm start", "log-fail");
+        return;
+      }
+
+      runBtn.disabled = true;
+      writeln("Sending skills to local runner…", "log-info");
+      writeln(`Skills: ${skills.map((s) => s.name).join(", ")}`, "log-info");
+
+      try {
+        const res = await fetch(`${API_BASE}/run`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skills })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: res.statusText }));
+          writeln(`Runner error: ${err.error || res.statusText}`, "log-fail");
+          runBtn.disabled = false;
+          await checkRunner();
+          return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          writeln(decoder.decode(value, { stream: true }), "log-info");
+        }
+
+        writeln("Stream closed.", "log-info");
+      } catch (err) {
+        writeln(`Failed to reach runner: ${err.message}`, "log-fail");
+      } finally {
+        runBtn.disabled = false;
+        checkRunner();
+      }
+    }
+
+    runBtn.addEventListener("click", runReal);
+
+    renderSources();
+    renderSkills();
+    checkRunner();
+    setInterval(checkRunner, 5000);
+  </script>
+</body>
+</html>
