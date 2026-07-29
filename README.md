@@ -1,20 +1,14 @@
 # 🚀 LinkedIn Skills Automation & Test Framework
 
-An enterprise-grade, end-to-end web UI & API test automation framework that incorporates a lightweight, web-based UI manager (**SkillForge**) to construct, validate, and automatically apply skills to a LinkedIn profile. Built on Java 17 using standard Page Object Model (POM) principles, the framework combines Selenium WebDriver for UI automation, REST Assured for backend validation, dynamic JSON-driven data parameterization, interactive Allure reporting, and Jira/Zephyr test management integration.
+An end-to-end web UI test automation framework that incorporates a lightweight, web-based UI manager (**SkillForge**) to construct, validate, and automatically apply skills to a LinkedIn profile. Built on Java using Page Object Model (POM) principles, the framework leverages Selenium WebDriver for web automation, JSON data parameterization, and Allure reporting for execution insights.
 
 ---
 
 ## 🖥️ SkillForge UI Tool & Workflow
 
-The framework provides **SkillForge**, an intuitive visual builder designed to convert manual LinkedIn updates into a repeatable, automated workflow:
-
-## 🖥️ SkillForge UI Tool & Workflow
-
 The framework provides **SkillForge**, an intuitive visual builder designed to convert manual LinkedIn updates into a repeatable, automated workflow.
+<img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/fcf2de1f-86d3-4bcc-a4b2-fd3423f709ff" />
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/c9557500-58b1-4ad0-81b5-631c659f1015" alt="SkillForge UI Tool" width="100%" />
-</p>
 
 > 🎥 **Video Demo**: Watch the full interactive workflow in action [here on Google Drive](https://drive.google.com/file/d/1dJxfxOSHK72rGrN-Dxgm9f-t6amElPHF/view?usp=drive_link).
 
@@ -29,116 +23,74 @@ The framework provides **SkillForge**, an intuitive visual builder designed to c
 
 ## ✨ Key Features
 
-* 💻 **SkillForge Web Interface**: Interactive HTML/CSS/JS frontend for building skill lists, assigning certification sources, exporting JSON configurations, and triggering test execution.
-* 🏗️ **Page Object Model (POM)**: Clean abstraction of web elements and user actions ensuring high maintainability, low duplication, and strict object encapsulation.
-* 🌐 **Selenium WebDriver & TestNG Integration**: Robust, browser-driven UI execution with flexible test suite management, parallel execution support, and lifecycle annotations.
-* ⚡ **REST Assured API Validation**: Backend integration for testing API endpoints, schema validation, HTTP response assertions, and profile state verifications.
-* 📊 **Data-Driven Architecture**: Fully parameterized via structured `JSON` files, allowing complete separation of test data from test execution logic.
-* 📈 **Allure & Jira / Zephyr Integration**: Interactive HTML reporting with request/response logs, automatic failure screenshots, and seamless synchronization with Jira/Zephyr scale test management.
-* ⚙️ **Multi-Environment Configuration**: Centralized environment properties to easily switch between local, staging, or CI/CD headless execution modes.
+* 💻 **SkillForge Web Interface**: Interactive HTML/CSS/JS frontend for building skill lists, assigning certification sources, exporting JSON configurations, and launching execution.
+* 🏗️ **Page Object Model (POM)**: Clean abstraction of web elements (`Pages/`) and user interactions to maximize reusability and maintainability.
+* 🌐 **Selenium WebDriver & TestNG Integration**: Browser-driven execution engine with TestNG annotations, test management, and lifecycle hooks.
+* 📊 **Data-Driven Parameterization**: Parameterized via structured JSON test data, mapped seamlessly into Java objects (`POJOClass/`) for flexible execution.
+* 📈 **Allure Reporting**: Interactive test execution reports with step-level logging and failure screenshots.
+* 🧩 **Custom Browser Extensions Support**: Loads customized Chrome extensions (located in `src/test/resources/extensions/`) to streamline browser execution.
 
 ---
 
 ## 🛠️ Tech Stack
 
 * **Programming Language**: Java 17+
-* **UI Automation**: Selenium WebDriver 4.16.1
-* **API Testing**: REST Assured 5.3.2
-* **Test Framework**: TestNG 7.8.0
+* **UI Automation**: Selenium WebDriver
+* **Test Runner**: TestNG
 * **Build Tool**: Apache Maven
-* **Data Parser**: Jackson Databind / Gson
-* **Reporting**: Allure Test Report 2.24.0 & Log4j2
+* **Data Parsing**: JSON / Gson (POJO Mapping)
+* **Reporting**: Allure Framework & Log4j
 * **Frontend UI Manager**: HTML5, CSS3, JavaScript (ES6)
-* **Test Management**: Jira / Zephyr Squad
 
 ---
 
 ## 🔍 Deep Dive: Source Code Architecture (`src/` Breakdown)
 
-The repository follows standard Maven project architecture with clear separation between core test engines (`src/main`) and test cases/listeners (`src/test`).
-
 ```text
-Automation-API-Testing-Project/
-├── ui/                           # SkillForge Web Frontend (HTML/CSS/JS)
+LinkedIn-Skills-Automation/
+├── docs/                         # Project documentation and assets
+├── ui/                           # SkillForge Web Frontend Manager (HTML/CSS/JS)
 ├── src/
 │   ├── main/
-│   │   ├── java/com/qa/
-│   │   │   ├── api/             # REST Assured Engine & Endpoint Specifications
-│   │   │   │   ├── builder/     # Request/Response Spec Builders
-│   │   │   │   ├── clients/     # API Client abstractions
-│   │   │   │   └── models/      # POJO / DTO classes for serialization
-│   │   │   ├── config/          # Centralized Property & Environment Loaders
-│   │   │   ├── driver/          # Thread-safe WebDriver Factory & Lifecycle
-│   │   │   ├── pages/           # Page Object Model (POM) Web Page classes
-│   │   │   │   ├── base/        # BasePage wrapper with explicit waits
-│   │   │   │   ├── LoginPage.java
-│   │   │   │   ├── ProfilePage.java
-│   │   │   │   └── SkillsPage.java
-│   │   │   └── utils/           # Helper Utilities (JSON Reader, Screenshot, Allure)
-│   │   └── resources/           # Configuration files (config.properties, log4j2.xml)
+│   │   ├── java/
+│   │   │   ├── Pages/           # Page Object Model (POM) classes (UI interactions)
+│   │   │   └── utilis/
+│   │   │       └── POJOClass/   # Plain Old Java Objects for JSON data binding
+│   │   └── resources/           # Application configuration files (config.properties)
 │   └── test/
-│       ├── java/com/qa/
-│       │   ├── listeners/       # TestNG & Allure Execution Listeners
-│       │   └── tests/           # Test Suites & Test Cases
-│       │       ├── base/        # BaseTest class (Driver setup & tearDown)
-│       │       ├── api/         # Backend API Verification Tests
-│       │       └── ui/          # End-to-End Skill Automation UI Tests
-│       └── resources/           # Test Data & Execution XML Suites
-│           ├── testdata/        # skills.json test data input
-│           └── suites/          # testng.xml, testng-api.xml, testng-ui.xml
+│       ├── java/
+│       │   └── testdata/        # TestNG test classes and execution logic
+│       └── resources/
+│           └── extensions/      # Browser extensions (e.g., adblocker .crx files)
+├── pom.xml                       # Maven build dependencies & plugins
+├── testng.xml                    # Test execution suite configuration
+└── README.md                     # Documentation
 
 ```
 
 ---
 
-### 🏛️ `src/main/java` Core Component Modules
+### 🏛️ Component Breakdown
 
-#### 1. `com.qa.driver` — Thread-Safe Driver Management
+#### 1. `src/main/java/Pages/` — Page Object Model (POM)
 
-* **`DriverManager.java`**: Manages `ThreadLocal<WebDriver>` instances to ensure safe parallel execution across multiple browser instances.
-* **`DriverFactory.java`**: Instantiates and configures `ChromeDriver`, `FirefoxDriver`, or `EdgeDriver` based on property flags (e.g., Headless mode, Window Maximization, Incognito).
+Contains web page encapsulation classes modeling LinkedIn components, login workflows, profile skill sections, and dialog elements to isolate locator logic from test execution.
 
-#### 2. `com.qa.pages` — Page Object Model (POM) Architecture
+#### 2. `src/main/java/utilis/POJOClass/` — Data Models
 
-* **`BasePage.java`**: Base encapsulation class containing reusable explicit wait strategies (`ExpectedConditions`), web element interactions (`safeClick`, `typeText`, `scrollToElement`), and JS Executer utilities.
-* **`LoginPage.java`**: Encapsulates LinkedIn login interactions, credentials input fields, and multi-factor/captcha detection assertions.
-* **`ProfilePage.java`**: Models LinkedIn user profile navigation, direct access to skill modal dialogues, and skill verification panels.
-* **`SkillsPage.java`**: Contains logic for finding skill search fields, attaching certification sources/tags (*Diploma*, *ISTQB*, *METI*), saving skill updates, and verifying DOM updates.
+Defines Java model classes matching the JSON schema produced by **SkillForge**, enabling automated deserialization of skills, experience tags, and certification sources into Java objects.
 
-#### 3. `com.qa.api` — REST Assured Testing Core
+#### 3. `src/main/resources/` — Project Resources
 
-* **`SpecBuilder.java`**: Provides pre-configured `RequestSpecBuilder` and `ResponseSpecBuilder` instances (Base URI, Headers, OAuth Tokens/Cookies, Content-Type `application/json`).
-* **`SkillsApiClient.java`**: Wrapper around REST Assured HTTP methods (`GET`, `POST`, `DELETE`) to query or modify profile data programmatically via backend endpoints.
-* **`models/`**: Strongly typed Java POJOs (Plain Old Java Objects) used for Jackson serialization and deserialization of JSON payloads.
+Houses environment properties (`config.properties`) for configuring browser parameters, wait thresholds, base URLs, and target credentials.
 
-#### 4. `com.qa.utils` — Helper & Data Utilities
+#### 4. `src/test/java/testdata/` — Test Execution
 
-* **`JsonDataReader.java`**: Reads `skills.json` and parses JSON objects directly into TestNG `@DataProvider` dynamic arrays or Java List Data Structures.
-* **`AllureReportListener.java`**: Intercepts TestNG event hooks to attach step logs, request payloads, and full-resolution failure screenshots directly to Allure reports.
-* **`ConfigReader.java`**: Singleton reader for fetching keys from `config.properties`.
+Houses TestNG test cases that parse the generated JSON payload, launch the web driver, iterate over skill lists, and interact with the LinkedIn UI.
 
----
+#### 5. `src/test/resources/extensions/` — Extensions Setup
 
-### 🧪 `src/test/java` Test Implementation Breakdown
-
-#### 1. `tests.base.BaseTest`
-
-Serves as the root class for all UI and API test classes:
-
-* `@BeforeMethod`: Initializes the `WebDriver` via `DriverFactory`, navigates to the base URL, and sets implicit wait bounds.
-* `@AfterMethod`: Takes a screenshot on test failure via `AllureReportListener`, attaches logs, and safely closes the driver session using `DriverManager.quitDriver()`.
-
-#### 2. `tests.ui.LinkedInSkillsTest`
-
-* Execution entry point for LinkedIn automation.
-* Reads inputs from `skills.json`.
-* Executes login sequence, navigates to the Skills section, iteratively inputs skills and links sources, then validates successful skill addition on the UI.
-
-#### 3. `tests.api.SkillsApiTest`
-
-* Validates endpoint response codes (`200 OK`, `201 Created`, `400 Bad Request`).
-* Performs JSON schema validation against API responses.
-* Verifies skill payload integrity independently of the web browser.
+Contains custom Chrome extension files (`.crx`) pre-configured to load into the WebDriver instance during suite setup (e.g., suppressing overlays or popups).
 
 ---
 
@@ -146,19 +98,19 @@ Serves as the root class for all UI and API test classes:
 
 ### Prerequisites
 
-Ensure you have the following installed on your local machine:
+Ensure you have the following installed locally:
 
 * **JDK (Java Development Kit)**: `17` or higher
 * **Apache Maven**: `3.8+`
-* **Google Chrome**: Latest version (or matching browser driver)
-* **Git**: CLI installed
+* **Google Chrome**: Latest version
+* **Git**: Installed and configured
 
 ### Installation
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/SeifZiad/Automation-API-Testing-Project.git
-cd Automation-API-Testing-Project
+git clone https://github.com/SeifZiad/LinkedIn-Skills-Automation.git
+cd LinkedIn-Skills-Automation
 
 ```
 
@@ -170,15 +122,14 @@ mvn clean install -DskipTests
 ```
 
 
-3. **Configure Environment Parameters:**
-Create or edit `src/main/resources/config.properties`:
+3. **Configure environment settings:**
+Update your configurations in `src/main/resources/config.properties`:
 ```properties
 linkedin.url=https://www.linkedin.com
-linkedin.username=YOUR_LINKEDIN_EMAIL
-linkedin.password=YOUR_LINKEDIN_PASSWORD
 browser=chrome
+implicitWait=10
+explicitWait=15
 headless=false
-timeout=10
 
 ```
 
@@ -188,59 +139,47 @@ timeout=10
 
 ## 💡 Usage & Execution Guide
 
-### 1. Using SkillForge UI Manager
+### 1. Generating Test Data with SkillForge UI
 
 1. Launch `ui/index.html` in your browser.
-2. Build your target list of skills and assign certification sources (*Diploma*, *ISTQB*, *METI*).
-3. Click **Download skills.json** and place the generated file into `src/test/resources/testdata/skills.json`.
-4. Run the automated suite via command line.
+2. Enter desired skills and select corresponding source tags (*Diploma*, *ISTQB*, *METI*).
+3. Click **Download skills.json** and place the generated JSON file into your test resources directory.
 
 ### 2. Command Line Execution
 
-* **Run all automated tests:**
+* **Execute the TestNG automation suite:**
 ```bash
 mvn clean test
 
 ```
 
 
-* **Run specific TestNG Suite (UI or API):**
+* **Execute using a specific TestNG XML suite:**
 ```bash
-# Run UI Skills Automation Suite
-mvn test -DsuiteXmlFile=src/test/resources/suites/testng-ui.xml
-
-# Run API Validation Suite
-mvn test -DsuiteXmlFile=src/test/resources/suites/testng-api.xml
-
-```
-
-
-* **Run in Headless Mode:**
-```bash
-mvn test -Dheadless=true
+mvn test -DsuiteXmlFile=testng.xml
 
 ```
 
 
 
-### 3. Reporting & Visualization
+### 3. Allure Reporting
 
-Generate and open the interactive Allure HTML report:
+Generate and view the execution report:
 
 ```bash
 # Generate report files
 mvn allure:report
 
-# Serve live Allure report on local server
+# Serve live report locally
 mvn allure:serve
 
 ```
 
 ---
 
-## ⚙️ Configuration & Test Data Example
+## ⚙️ Test Data Example
 
-The framework consumes structured JSON generated by **SkillForge** located at `src/test/resources/testdata/skills.json`:
+SkillForge outputs structured JSON data read by `POJOClass` mapping:
 
 ```json
 [
