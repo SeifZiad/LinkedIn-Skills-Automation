@@ -8,17 +8,22 @@ An enterprise-grade, end-to-end web UI & API test automation framework that inco
 
 The framework provides **SkillForge**, an intuitive visual builder designed to convert manual LinkedIn updates into a repeatable, automated workflow:
 
+## 🖥️ SkillForge UI Tool & Workflow
+
+The framework provides **SkillForge**, an intuitive visual builder designed to convert manual LinkedIn updates into a repeatable, automated workflow.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c9557500-58b1-4ad0-81b5-631c659f1015" alt="SkillForge UI Tool" width="100%" />
+</p>
+
+> 🎥 **Video Demo**: Watch the full interactive workflow in action [here on Google Drive](https://drive.google.com/file/d/1dJxfxOSHK72rGrN-Dxgm9f-t6amElPHF/view?usp=drive_link).
+
 ### 🔄 Workflow Process:
 
 1. 🛠️ **Add Skills**: Enter target LinkedIn skills directly into the interface.
 2. 🔗 **Attach Sources**: Connect each skill to relevant background items (e.g., *Diploma*, *ISTQB*, *METI*).
 3. 📦 **Export JSON**: Automatically generate the parameterized `skills.json` test-data file.
 4. ▶️ **Run Automation**: Launch the underlying Selenium + TestNG test suite with live terminal logging.
-
-
-🎥 **[Watch the Interactive Demo Video](https://drive.google.com/file/d/1dJxfxOSHK72rGrN-Dxgm9f-t6amElPHF/view?usp=drive_link)**
-
-<img width="1280" height="720" alt="Slide1" src="https://github.com/user-attachments/assets/c9557500-58b1-4ad0-81b5-631c659f1015" />
 
 ---
 
